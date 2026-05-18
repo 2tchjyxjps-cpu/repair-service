@@ -12,12 +12,6 @@ const STORAGE_KEY = "repair-service-user"
 export function loginUser(user: AuthUser) {
   const normalizedUser: AuthUser = {
     ...user,
-    role:
-      user.email === "admin@repair.ru"
-        ? "admin"
-        : user.email.includes("master")
-          ? "master"
-          : "client",
   }
 
   localStorage.setItem(

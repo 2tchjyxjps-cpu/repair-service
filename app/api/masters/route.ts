@@ -4,7 +4,7 @@ export async function GET() {
   const masters =
     await prisma.user.findMany({
       where: {
-        role: "MASTER",
+        role: "master",
       },
     })
 
@@ -29,7 +29,7 @@ export async function POST(
         description:
           body.description,
 
-        role: "MASTER",
+        role: "master",
       },
     })
 
