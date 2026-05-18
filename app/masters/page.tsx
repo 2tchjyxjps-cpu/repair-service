@@ -1,44 +1,33 @@
 "use client"
 
+import {
+  useEffect,
+  useState,
+} from "react"
+
 import { useSearchParams } from "next/navigation"
 
 import Container from "@/components/ui/Container"
 
-const masters = [
-  {
-    id: 1,
-    name: "Александр Петров",
-    role: "Специалист по ремонту смартфонов",
-    specialization: "Смартфоны",
-    experience: "7 лет опыта",
-    rating: "4.9",
-    description:
-      "Специализируется на ремонте iPhone, Samsung и других мобильных устройств премиального сегмента.",
-  },
-  {
-    id: 2,
-    name: "Дмитрий Волков",
-    role: "Инженер по ремонту ноутбуков",
-    specialization: "Ноутбуки",
-    experience: "10 лет опыта",
-    rating: "5.0",
-    description:
-      "Проводит диагностику и сложный ремонт ноутбуков, рабочих станций и игровых систем.",
-  },
-  {
-    id: 3,
-    name: "Егор Смирнов",
-    role: "Apple-специалист",
-    specialization: "Apple-устройства",
-    experience: "6 лет опыта",
-    rating: "4.8",
-    description:
-      "Работает с техникой Apple: MacBook, iPhone, iPad и другими устройствами экосистемы.",
-  },
-]
-
 export default function MastersPage() {
   const searchParams = useSearchParams()
+
+  const [masters, setMasters] =
+    useState<any[]>([])
+
+  useEffect(() => {
+    async function loadMasters() {
+      const response = await fetch(
+        "/api/masters"
+      )
+
+      const data = await response.json()
+
+      setMasters(data)
+    }
+
+    loadMasters()
+  }, [])
 
   const selectedService =
     searchParams.get("service") || "Ремонт устройства"
@@ -83,7 +72,7 @@ export default function MastersPage() {
                     </div>
 
                     <div className="mt-1 text-sm font-medium text-zinc-400">
-                      {master.role}
+                      Мастер сервисного центра
                     </div>
                   </div>
                 </div>
@@ -91,20 +80,20 @@ export default function MastersPage() {
 
               <div className="mb-5 flex flex-wrap items-center gap-3">
                 <div className="rounded-full border border-black/5 bg-black/[0.03] px-4 py-2 text-sm font-medium text-zinc-500">
-                  ⭐ {master.rating}
+                  ⭐ 5.0
                 </div>
 
                 <div className="rounded-full border border-black/5 bg-black/[0.03] px-4 py-2 text-sm font-medium text-zinc-500">
-                  {master.experience}
+                  Опытный специалист
                 </div>
 
                 <div className="rounded-full border border-black/5 bg-zinc-900 px-4 py-2 text-sm font-medium text-white">
-                  {master.specialization}
+                  Ремонт техники
                 </div>
               </div>
 
               <p className="flex-1 leading-8 text-zinc-500">
-                {master.description}
+                Специалист сервисного центра, выполняющий диагностику и ремонт техники различных категорий.
               </p>
 
               <div className="mt-10">

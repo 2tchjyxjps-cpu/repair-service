@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 
 import Container from "@/components/ui/Container"
@@ -20,16 +20,36 @@ export default function BookingPage() {
       ? selectedMasterParam
       : "Не назначен"
 
-  const selectedService =
-    selectedServiceParam && selectedServiceParam.trim().length > 0
-      ? selectedServiceParam
-      : "Ремонт устройства"
+  const [selectedService, setSelectedService] =
+    useState(
+      selectedServiceParam &&
+        selectedServiceParam.trim().length > 0
+        ? selectedServiceParam
+        : ""
+    )
 
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
   const [device, setDevice] = useState("")
   const [problem, setProblem] = useState("")
   const [comment, setComment] = useState("")
+
+  const [services, setServices] =
+    useState<any[]>([])
+
+  useEffect(() => {
+    async function loadServices() {
+      const response = await fetch(
+        "/api/services"
+      )
+
+      const data = await response.json()
+
+      setServices(data)
+    }
+
+    loadServices()
+  }, [])
 
   const handleSubmit = async () => {
     if (!name || !phone || !device || !problem || !comment) {
@@ -188,6 +208,7 @@ export default function BookingPage() {
                   />
                 </div>
               </div>
+
 
               <div className="mt-8">
                 <label className="mb-3 block text-sm font-medium text-zinc-500">

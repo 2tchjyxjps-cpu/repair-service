@@ -105,7 +105,7 @@ export default function Navbar() {
 
               <button
                 onClick={handleLogout}
-                className="rounded-full border border-black/5 bg-white px-5 py-2 text-sm font-medium text-zinc-500 transition hover:border-black/10 hover:text-zinc-900"
+                className="rounded-full bg-zinc-900 px-5 py-2 text-sm font-medium text-white transition hover:bg-black"
               >
                 Выйти
               </button>
