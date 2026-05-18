@@ -16,11 +16,7 @@ export async function POST(req: Request) {
     )
   }
 
-  const role = body.email.includes("master")
-    ? "MASTER"
-    : body.email.includes("admin")
-    ? "ADMIN"
-    : "CLIENT"
+  const role = "admin"
 
   const user = await prisma.user.create({
     data: {
