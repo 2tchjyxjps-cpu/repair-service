@@ -6,8 +6,11 @@ export type RepairRequest = {
   service?: string
   problem: string
   comment: string
+  clientId?: string
+  clientName?: string
   status: string
   master: string
+  price?: string
   date: string
   history?: string[]
 }
