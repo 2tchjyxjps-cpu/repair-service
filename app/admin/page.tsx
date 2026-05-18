@@ -298,7 +298,7 @@ export default function AdminPage() {
         request.device
           .toLowerCase()
           .includes(search.toLowerCase()) ||
-        (request.client?.name || "")
+        (request.clientName || "")
           .toLowerCase()
           .includes(search.toLowerCase())
 
@@ -759,7 +759,7 @@ export default function AdminPage() {
                     </div>
 
                     <div className="text-lg font-medium text-zinc-900">
-                      {request.client?.name || "Клиент"}
+                      {request.clientName || "Клиент"}
                     </div>
                   </div>
 

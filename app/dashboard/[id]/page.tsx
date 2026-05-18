@@ -78,10 +78,11 @@ export default function RequestPage({
                 Клиент
               </div>
 
-              <div className="text-2xl font-medium text-zinc-900">
-                {request.client?.name || "Клиент"}
-              </div>
-            </div>
+<div className="text-2xl font-medium text-zinc-900">
+
+  {request.clientName || "Клиент"}
+
+</div>
 
             <div>
               <div className="mb-2 text-sm uppercase tracking-[0.15em] text-zinc-400">
