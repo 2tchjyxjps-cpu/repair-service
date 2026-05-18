@@ -1,3 +1,8 @@
+type Props = {
+  params: Promise<{
+    id: string
+  }>
+}
 export async function PATCH(
   req: Request,
   { params }: Props
