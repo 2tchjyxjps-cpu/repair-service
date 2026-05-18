@@ -1,6 +1,7 @@
 "use client"
+export const dynamic = "force-dynamic"
 
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import { useSearchParams } from "next/navigation"
 
 import Container from "@/components/ui/Container"
@@ -9,7 +10,7 @@ import Button from "@/components/ui/Button"
 
 import { getCurrentUser } from "@/lib/auth"
 
-export default function BookingPage() {
+function BookingContent() {
   const searchParams = useSearchParams()
 
   const selectedMasterParam = searchParams.get("master")
@@ -267,5 +268,13 @@ export default function BookingPage() {
         </div>
       </Container>
     </main>
+  )
+}
+
+export default function BookingPage() {
+  return (
+    <Suspense fallback={<div>Загрузка...</div>}>
+      <BookingContent />
+    </Suspense>
   )
 }

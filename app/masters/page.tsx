@@ -1,6 +1,9 @@
 "use client"
 
+export const dynamic = "force-dynamic"
+
 import {
+  Suspense,
   useEffect,
   useState,
 } from "react"
@@ -9,7 +12,7 @@ import { useSearchParams } from "next/navigation"
 
 import Container from "@/components/ui/Container"
 
-export default function MastersPage() {
+function MastersContent() {
   const searchParams = useSearchParams()
 
   const [masters, setMasters] =
@@ -109,5 +112,13 @@ export default function MastersPage() {
         </div>
       </Container>
     </main>
+  )
+}
+
+export default function MastersPage() {
+  return (
+    <Suspense fallback={<div>Загрузка...</div>}>
+      <MastersContent />
+    </Suspense>
   )
 }
