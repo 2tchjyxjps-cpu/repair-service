@@ -1,3 +1,4 @@
+import { prisma } from "@/lib/prisma"
 type Props = {
   params: Promise<{
     id: string
