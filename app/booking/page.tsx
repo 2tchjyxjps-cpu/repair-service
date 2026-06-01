@@ -12,6 +12,13 @@ import { getCurrentUser } from "@/lib/auth"
 
 function BookingContent() {
   const searchParams = useSearchParams()
+  useEffect(() => {
+    const user = getCurrentUser()
+
+    if (!user) {
+      window.location.href = "/login"
+    }
+  }, [])
 
   const selectedMasterParam = searchParams.get("master")
   const selectedServiceParam = searchParams.get("service")

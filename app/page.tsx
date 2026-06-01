@@ -29,7 +29,7 @@ export default function HomePage() {
               </p>
 
               <div className="flex flex-wrap gap-4 lg:justify-end">
-                <Button href="/services">
+                <Button href="/services" variant="secondary">
                   Услуги
                 </Button>
 

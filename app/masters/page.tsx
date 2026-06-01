@@ -8,25 +8,37 @@ import {
   useState,
 } from "react"
 
-import { useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 
 import Container from "@/components/ui/Container"
 
 function MastersContent() {
   const searchParams = useSearchParams()
+  const router = useRouter()
 
   const [masters, setMasters] =
     useState<any[]>([])
 
   useEffect(() => {
     async function loadMasters() {
-      const response = await fetch(
-        "/api/masters"
-      )
+      try {
+        const response = await fetch("/api/masters", {
+          cache: "no-store",
+        })
 
-      const data = await response.json()
+        const data = await response.json()
 
-      setMasters(data)
+        if (Array.isArray(data)) {
+          setMasters(data)
+        } else if (Array.isArray(data?.masters)) {
+          setMasters(data.masters)
+        } else {
+          setMasters([])
+        }
+      } catch (error) {
+        console.error("Ошибка загрузки мастеров", error)
+        setMasters([])
+      }
     }
 
     loadMasters()
@@ -34,6 +46,31 @@ function MastersContent() {
 
   const selectedService =
     searchParams.get("service") || "Ремонт устройства"
+
+  const handleBooking = (masterName: string) => {
+    const rawUser = localStorage.getItem("user")
+
+    if (!rawUser) {
+      router.push("/login")
+      return
+    }
+
+    try {
+      const user = JSON.parse(rawUser)
+
+      if (!user || !user.id) {
+        router.push("/login")
+        return
+      }
+    } catch {
+      router.push("/login")
+      return
+    }
+
+    router.push(
+      `/booking?master=${encodeURIComponent(masterName)}&service=${encodeURIComponent(selectedService)}`
+    )
+  }
 
   return (
     <main className="min-h-screen bg-[#f5f3ef] pb-32 pt-24">
@@ -56,6 +93,12 @@ function MastersContent() {
             опытом работы и оформите заявку онлайн.
           </p>
         </div>
+
+        {masters.length === 0 && (
+          <div className="mt-20 rounded-[32px] border border-black/5 bg-white/70 p-8 text-center text-zinc-500">
+            Мастера временно недоступны
+          </div>
+        )}
 
         <div className="mt-20 grid gap-6 lg:grid-cols-3">
           {masters.map((master) => (
@@ -100,12 +143,12 @@ function MastersContent() {
               </p>
 
               <div className="mt-10">
-                <a
-                  href={`/booking?master=${encodeURIComponent(master.name)}&service=${encodeURIComponent(selectedService)}`}
+                <button
+                  onClick={() => handleBooking(master.name)}
                   className="inline-flex items-center justify-center rounded-full bg-zinc-900 px-6 py-3 text-sm font-medium text-white transition hover:opacity-80"
                 >
                   Оформить заявку
-                </a>
+                </button>
               </div>
             </div>
           ))}
